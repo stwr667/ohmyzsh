@@ -6,7 +6,7 @@ function get_region_and_rails_env() {
       rails_env_tmp=$RAILS_ENV
     fi
 
-    if [[ -v "$AGW_database_name" ]]; then
+    if [[ -v AGW_database_name ]]; then
       append_db_name_tmp=":$AGW_database_name"
     fi
 
@@ -22,8 +22,16 @@ function get_region_and_rails_env() {
   fi
 }
 
+function get_overridden_ruby_version() {
+  if [[ -v RBENV_VERSION ]]; then
+    echo " %{$fg[green]%}Ruby $RBENV_VERSION%{$reset_color%}"
+  fi
+}
+
+
 PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%}'
+PROMPT+='$(get_overridden_ruby_version)'
 PROMPT+='%{$fg[yellow]%}$(get_region_and_rails_env)%{$reset_color%} '
 PROMPT+='$(git_prompt_info)'
 PROMPT+='$ '
