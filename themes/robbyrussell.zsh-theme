@@ -1,13 +1,20 @@
 function get_forge_env() {
-  if [[ "$PWD" =~ "automation-for-confluence/packages/forge-app" ]]; then
+  if [[ "$PWD" =~ "packages/forge-app" ]]; then
     if [ "$FORGE_GRAPHQL_GATEWAY" = "https://api-private.stg.atlassian.com/graphql" ]; then
       forge_env_tmp=stag
     fi
     if [ "$FORGE_GRAPHQL_GATEWAY" = "https://api.atlassian.com/graphql" ]; then
       forge_env_tmp=prod
     fi
+    if [[ "$PWD" =~ "automation-forge-example" ]]; then
+      forge_app_name=exam
+    elif [[ "$PWD" =~ "automation-for-confluence" ]]; then
+      forge_app_name=a4c
+    else
+      forge_app_name=?app
+    fi
 
-    echo " forge:$forge_env_tmp"
+    echo " forge:$forge_app_name:$forge_env_tmp"
   else
     return
   fi
